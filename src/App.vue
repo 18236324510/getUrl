@@ -26,24 +26,28 @@ const getUrl = async () => {
 const inputVal = ref('')
 
 const open = async (num: number) => {
-  let res = await axios({
-    method: 'GET',
-    url: `http://hj.viphk.91tunnel.com/api/hjjx?id=${inputVal.value}`
-  })
-  loading.value = false
-  if (res.data.msg === 'success') {
-    console.log(res.data.data)
-    inputVal.value = ''
-    localStorage.setItem(
-      key,
-      JSON.stringify({
-        num: num + 1,
-        day: new Date().getDay()
-      })
-    )
-    window.open(res.data.data)
-  } else {
-    alert(res.data.data)
+  try {
+    let res = await axios({
+      method: 'GET',
+      url: `http://hj.viphk.91tunnel.com/api/hjjx?id=${inputVal.value}`
+    })
+    loading.value = false
+    if (res.data.msg === 'success') {
+      console.log(res.data.data)
+      inputVal.value = ''
+      localStorage.setItem(
+        key,
+        JSON.stringify({
+          num: num + 1,
+          day: new Date().getDay()
+        })
+      )
+      window.open(res.data.data)
+    } else {
+      alert(res.data.data)
+    }
+  } catch (error) {
+    alert('请求失败，请重试')
   }
 }
 </script>
